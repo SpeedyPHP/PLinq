@@ -1,9 +1,11 @@
 {
-	"name": "athari/ya-linqo",
-	"description": "YaLinqo a LINQ Libray for PHP",
+	"name": "vector-web/plinq",
+	"description": "PLinq a LINQ Libray for PHP",
 	"license": "Simplified BSD",
 	"authors": [{
 		"name": "Alexander Prokhorov"
+	},{
+		"name": "Zachary Quintana"
 	}],
 	"require" : {
 		"php": ">=5.3"

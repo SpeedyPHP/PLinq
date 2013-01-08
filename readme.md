@@ -1,6 +1,6 @@
-# *YaLinqo: Yet Another LINQ to Objects for PHP*
+# *PLinq: Yet Another Anther LINQ to Objects for PHP*
 
-https://github.com/Athari/YaLinqo
+forked from https://github.com/Athari/YaLinqo
 
 Features
 ========
