@@ -12,7 +12,7 @@
 	},
 	"autoload": {
 		"files": [
-			"Yalinqo/Linq.php"
+			"YaLinqo/Linq.php"
 		]
 	}
 }
