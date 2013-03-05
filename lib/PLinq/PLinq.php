@@ -23,12 +23,14 @@ class PLinq implements \IteratorAggregate {
      */
     private function __construct ($source)
     {
-    	if (is_array($iterator)) {
+    	if (is_array($source)) {
     		$iterator = new Enumerable($source);
     	} elseif ($source instanceof \ArrayIterator) {
     		$iterator = new Enumerable($source->getArrayCopy());
+        } elseif ($source instanceof \ArrayObject) {
+            $iterator = new Enumerable($source->getArrayCopy());
     	} else {
-    		throw new \InvalidArgumentException("Unexpected \$source type");
+    		$iterator = new Enumerable($source);
     	}
 
         $this->_iterator = $iterator;
@@ -62,13 +64,14 @@ class PLinq implements \IteratorAggregate {
      * @param callback|null $predicate {(v, k) ==> result} A function to test each element for a condition. Default: true.
      * @return mixed If predicate is null: default value if source is empty; otherwise, the first element in source. If predicate is not null: default value if source is empty or if no element passes the test specified by predicate; otherwise, the first element in source that passes the test specified by predicate.
      */
-    public function firstOrDefault ($default = null, $predicate = null)
+    public function firstOrDefault ($predicate = null, $default = null)
     {
         $predicate = Utils::createLambda($predicate, 'v,k', Functions::$true);
 
         foreach ($this as $k => $v) {
-            if (call_user_func($predicate, $v, $k))
-            	return $v;
+            if (call_user_func($predicate, $v, $k)) {
+                return $v;
+            }
         }
         return $default;
     }

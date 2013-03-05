@@ -39,7 +39,7 @@ class Enumerable implements \Iterator, \ArrayAccess
      * @internal
      * @param mixed $source
      */
-    private function __construct ($source) { 
+    public function __construct ($source) { 
         $this->_data = $source;
     }
 
