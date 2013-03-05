@@ -11,8 +11,8 @@
 		"php": ">=5.3"
 	},
 	"autoload": {
-		"files": [
-			"YaLinqo/Linq.php"
-		]
+		"psr-0": {
+			"PLinq" : "PLinq"
+		}
 	}
 }
