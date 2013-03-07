@@ -111,7 +111,7 @@ class PLinq implements \IteratorAggregate {
 
         foreach ($this as $k => $v) {
         	if (!call_user_func($predicate, $v, $k)) {
-        		unset($this[$k]);
+        		unset($this->getIterator()[$k]);
         	}
         }
 
