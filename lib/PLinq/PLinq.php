@@ -4,7 +4,7 @@ namespace PLinq;
 
 use PLinq\Collections as c, PLinq\Exceptions as e;
 
-class PLinq implements \IteratorAggregate {
+class PLinq {
 
 	const ERROR_NO_ELEMENTS = 'Sequence contains no elements.';
     const ERROR_NO_MATCHES = 'Sequence contains no matching elements.';
@@ -17,23 +17,25 @@ class PLinq implements \IteratorAggregate {
 
     private $_iterator;
 
+    private $_data;
+
     /**
      * @internal
      * @param Closure $iterator
      */
-    private function __construct ($source)
+    public function __construct ($source)
     {
     	if (is_array($source)) {
-    		$iterator = new Enumerable($source);
+    		$iterator = $source;
     	} elseif ($source instanceof \ArrayIterator) {
-    		$iterator = new Enumerable($source->getArrayCopy());
+    		$iterator = $source->getArrayCopy();
         } elseif ($source instanceof \ArrayObject) {
-            $iterator = new Enumerable($source->getArrayCopy());
+            $iterator = $source->getArrayCopy();
     	} else {
-    		$iterator = new Enumerable($source);
+    		$iterator = $source;
     	}
 
-        $this->_iterator = $iterator;
+        $this->_data = $iterator;
     }
 
     /** {@inheritdoc} */
@@ -66,9 +68,7 @@ class PLinq implements \IteratorAggregate {
      */
     public function firstOrDefault ($predicate = null, $default = null)
     {
-        $predicate = Utils::createLambda($predicate, 'v,k', Functions::$true);
-
-        foreach ($this as $k => $v) {
+        foreach ($this->_data as $k => $v) {
             if (call_user_func($predicate, $v, $k)) {
                 return $v;
             }
@@ -89,9 +89,7 @@ class PLinq implements \IteratorAggregate {
      */
     public function first ($predicate = null)
     {
-        $predicate = Utils::createLambda($predicate, 'v,k', Functions::$true);
-
-        foreach ($this as $k => $v) {
+        foreach ($this->_data as $k => $v) {
             if (call_user_func($predicate, $v, $k))
                 return $v;
         }
@@ -106,12 +104,9 @@ class PLinq implements \IteratorAggregate {
      */
     public function where ($predicate)
     {
-        $self = $this;
-        $predicate = Utils::createLambda($predicate, 'v,k');
-
-        foreach ($this as $k => $v) {
+        foreach ($this->_data as $k => $v) {
         	if (!call_user_func($predicate, $v, $k)) {
-        		$this->getIterator()->offsetUnset($k);
+        		unset($this->_data[$k]);
         	}
         }
 
