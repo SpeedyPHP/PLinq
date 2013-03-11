@@ -113,4 +113,9 @@ class PLinq {
         return $this;
     }
 
+    public function toList()
+    {
+        return $this->_data;
+    }
+
 }
